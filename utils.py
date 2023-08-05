@@ -22,6 +22,7 @@ import aiohttp
 from shortzy import Shortzy
 import http.client
 import json
+import re
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -218,9 +219,18 @@ def get_size(size):
         size /= 1024.0
     return "%.2f %s" % (size, units[i])
 
+
 def filtered_file_name(file_name):
-    prefixes = ('@', '_', 'www.', '[')
-    filtered_words = filter(lambda x: not x.startswith(prefixes), file_name.split())
+    import re
+    # Remove words between square brackets
+    file_name = re.sub(r'\[.*?\]', '', file_name)
+    
+    prefixes = ('@', '_', 'www.', 'tv')
+    filtered_words = filter(lambda x: not any(x.startswith(prefix) for prefix in prefixes), file_name.split())
+    
+    # Remove words that match the format of a Telegram username
+    filtered_words = [word for word in filtered_words if not re.match(r'@\w+', word)]
+    
     return ' '.join(filtered_words)
 
 def split_list(l, n):
