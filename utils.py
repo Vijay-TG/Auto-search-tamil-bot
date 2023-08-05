@@ -218,6 +218,11 @@ def get_size(size):
         size /= 1024.0
     return "%.2f %s" % (size, units[i])
 
+def filtered_file_name(file_name):
+    prefixes = ('@', '_', 'www.', '[')
+    filtered_words = filter(lambda x: not x.startswith(prefixes), file_name.split())
+    return ' '.join(filtered_words)
+
 def split_list(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]  
