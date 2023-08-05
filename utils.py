@@ -225,7 +225,7 @@ def filtered_file_name(file_name):
     # Remove words between square brackets
     file_name = re.sub(r'\[.*_?\]', '', file_name)
     
-    prefixes = ('@', '_', 'www.', '[')
+    prefixes = ('@', 'www.', '@MM_NEW')
     filtered_words = filter(lambda x: not any(x.startswith(prefix) for prefix in prefixes), file_name.split())
     
     # Remove words that match the format of a Telegram username
