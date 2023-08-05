@@ -222,14 +222,14 @@ def get_size(size):
 
 def filtered_file_name(file_name):
     import re
-    # Remove words between square brackets (including spaces)
-    file_name = re.sub(r'\[.*?\]', '', file_name)
+    # Remove words between square brackets
+    file_name = re.sub(r'\[.*_?\]', '', file_name)
     
-    prefixes = ('@', 'www.', 'tv')
+    prefixes = ('@', '_', 'www.', '[')
     filtered_words = filter(lambda x: not any(x.startswith(prefix) for prefix in prefixes), file_name.split())
     
-    # Remove words that match the format of a Telegram username (including underscores)
-    filtered_words = [word for word in filtered_words if not re.match(r'@[\w_]+', word)]
+    # Remove words that match the format of a Telegram username
+    filtered_words = [word for word in filtered_words if not re.match(r'@\w+', word)]
     
     return ' '.join(filtered_words)
 
